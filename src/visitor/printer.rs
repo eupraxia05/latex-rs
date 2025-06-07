@@ -186,7 +186,12 @@ where
     }
 
     fn visit_section(&mut self, section: &Section) -> Result<(), Error> {
-        writeln!(self.writer, r"\section{{{}}}", section.name)?;
+
+        if section.numbered {
+            writeln!(self.writer, r"\section{{{}}}", section.name)?;
+        } else {
+            writeln!(self.writer, r"\section*{{{}}}", section.name)?;
+        }
 
         if !section.is_empty() {
             // Make sure there's space between the \section{...} and the next line
